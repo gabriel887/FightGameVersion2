@@ -1,5 +1,5 @@
 # FightGame
-Joguinho feito com base no vídeo do Chris Courses.
+Joguinho sendo modificado por mim, tendo por base aquele feito no vídeo do Chris Courses.
 
 Git Pages
-https://gabriel887.github.io/FightGame/
+https://gabriel887.github.io/FightGameVersion2/
