@@ -1,5 +1,7 @@
 
 function rectangularCollision({rectangle1, rectangle2}){
+    
+
     return (rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x 
         && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width
         && rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y
@@ -11,12 +13,20 @@ function projectileCollision({rectangle1, rectangle2}){
     // var ponta = rectangle1.position.x + rectangle1.width;
     // var basePessoa = rectangle2.position.x;
     // var pontaPessoa = rectangle2.position.x + rectangle2.width;
+    // y*           *                           *       *
     
-    return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x 
-        && rectangle1.position.x <= rectangle2.position.x + rectangle2.width
+    
+    //  *           *                           *       *
+    // if(rectangle1.position.x + rectangle1.width >= rectangle2.position.x 
+    //     && rectangle1.position.x <= rectangle2.position.x + rectangle2.width
+    //     && rectangle1.position.y + rectangle1.height >= rectangle2.position.y
+    //     && rectangle1.position.y <= rectangle2.position.y + rectangle2.height){
+    // }
+    
+    return (((rectangle1.position.x + rectangle1.width >= rectangle2.position.x 
+        && rectangle1.position.x <= rectangle2.position.x + rectangle2.width) 
         && rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-        && rectangle1.position.y <= rectangle2.position.y + rectangle2.height
-        );
+        && rectangle1.position.y <= rectangle2.position.y + rectangle2.height));
 }
 
 function determineWinner(player1, player2, timerId){

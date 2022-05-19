@@ -75,6 +75,7 @@ class Fighter extends Sprite{
         this.framesHold = 7;
         this.sprites = sprites;
         this.dead = false;
+        this.rangedAttacked = false;
 
         for(const sprite in this.sprites){
             sprites[sprite].image = new Image();
@@ -191,10 +192,18 @@ class Fighter extends Sprite{
     }
 }
 
-class Projectile {
-    constructor({position, offset, width, height, velocity, direction, shot= false, hitted = false, enemy}){
-        this.position = position;
-        this.offset = offset;
+class Projectile  extends Sprite{
+    constructor({position, AttackOffset, offset, width, height, velocity, direction, shot= false, hitted = false, enemy,
+                    imageSrc= "./img/ranger2/ArrowMove.png", scale= 2, framesMax =2}){
+        super(
+            {
+                position, 
+                imageSrc, 
+                scale, 
+                framesMax, 
+                offset}
+            );
+        this.AttackOffset = AttackOffset;
         this.width = width;
         this.height = height;
         this.velocity = velocity;
@@ -206,19 +215,14 @@ class Projectile {
 
     update(){
         if(this.shot){
-            this.drawProjectile();
+            this.drawCharacter();
+            this.animateFrames();
             if(this.direction === "r"){ 
                 this.position.x += this.velocity; 
             }else{
                 this.position.x -= this.velocity;
             }
         }
-    }
-
-    drawProjectile(){
-        c.fillStyle = "red";
-        c.fillRect(this.position.x + this.offset.x, this.position.y + this.offset.y, this.width, this.height);
-        
     }
 
 }

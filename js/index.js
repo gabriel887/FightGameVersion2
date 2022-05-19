@@ -33,20 +33,15 @@ const player = new Fighter({
         imageSrc: "./img/teste/Idle.png",
         scale : 2.5,
         framesMax: 8,
-        offset: {x: 215, y:157},
+        offset: {x: 215, y:20},
         sprites: {
-            idle: {imageSrc: "./img/samuraiMack/Idle.png", framesMax: 8, image: new Image()},
-            run: {imageSrc: "./img/samuraiMack/Run.png", framesMax: 8, image: new Image()},
-            jump: {imageSrc: "./img/samuraiMack/Jump.png", framesMax: 2, image: new Image()},
-            fall: {imageSrc: "./img/samuraiMack/Fall.png", framesMax: 2, image: new Image()},
-            attack1: {imageSrc: "./img/samuraiMack/Attack1.png", framesMax: 6, image: new Image()},
-            takeHit: {imageSrc: "./img/samuraiMack/TakeHitWhiteSilhouette.png", framesMax: 4, image: new Image()},
-            death: {imageSrc: "./img/samuraiMack/Death.png", framesMax: 6, image: new Image()}
-        },
-        attackBox: {
-            offset: {x:110, y:50},
-            width: 150,
-            height: 50
+            idle: {imageSrc: "./img/ranger2/Idle.png", framesMax: 10, image: new Image()},
+            run: {imageSrc: "./img/ranger2/Run.png", framesMax: 8, image: new Image()},
+            jump: {imageSrc: "./img/ranger2/Jump.png", framesMax: 2, image: new Image()},
+            fall: {imageSrc: "./img/ranger2/Fall.png", framesMax: 2, image: new Image()},
+            attack1: {imageSrc: "./img/ranger2/Attack1.png", framesMax: 6, image: new Image()},
+            takeHit: {imageSrc: "./img/ranger2/GetHit.png", framesMax: 3, image: new Image()},
+            death: {imageSrc: "./img/ranger2/Death.png", framesMax: 10, image: new Image()}
         }
     });
 
@@ -67,11 +62,10 @@ const enemy = new Fighter({
             attack1: {imageSrc: "./img/kenji/Attack1.png", framesMax: 4, image: new Image()},
             takeHit: {imageSrc: "./img/kenji/TakeHit.png", framesMax: 3, image: new Image()},
             death: {imageSrc: "./img/kenji/Death.png", framesMax: 7, image: new Image()}
-
     },
     attackBox: {
-        offset: {x:-170, y:50},
-        width: 170,
+        offset: {x:-150, y:50},
+        width: 180,
         height: 50
     }
 });
@@ -112,14 +106,24 @@ function animate(){
     c.fillStyle = "rgba(255,255,255, 0.15)";
     c.fillRect(0,0, canvas.width, canvas.height);
     player.update();
+    // c.fillStyle = "red";
+    // c.fillRect(player.position.x - player.offset.x, player.position.y - player.offset.y, player.width, player.height);
     enemy.update();
+
+
+    if(player.rangedAttacked && player.framesCurrent === 5){
+        rangedAttack(player.position, enemy);
+        player.rangedAttacked = false;
+    }
+
 
     projectiles.forEach(projectile => {
         if(projectile.shot){
             projectile.update();
             if(projectileCollision({rectangle1:projectile,rectangle2:projectile.enemy})){
                 projectile.shot = false;
-                console.log("asdsadasda");
+                enemy.takeHit(10);
+                gsap.to("#enemyHealth", {width: enemy.health+'%'});
             }
         }
         
@@ -130,10 +134,10 @@ function animate(){
     enemy.velocity.x=0;
 
     
-    if(keys.a.pressed && player.lastKey === 'a'){
+    if(keys.a.pressed && player.lastKey === 'a' && player.position.x >=0){
         player.velocity.x=-5;
         player.switchSprite("run");
-    }else if(keys.d.pressed && player.lastKey === 'd'){
+    }else if(keys.d.pressed && player.lastKey === 'd' && player.position.x <= (canvas.width-50)){
         player.velocity.x = 5;
         player.switchSprite("run");
     }else{
@@ -147,10 +151,10 @@ function animate(){
     }
 
 
-    if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft'){
+    if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && enemy.position.x >=0){
         enemy.velocity.x=-5;
         enemy.switchSprite("run");
-    }else if(keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight'){
+    }else if(keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && enemy.position.x <= (canvas.width-50)){
         enemy.velocity.x = 5;
         enemy.switchSprite("run");
     }else{
@@ -163,11 +167,11 @@ function animate(){
         enemy.switchSprite("fall");
     }
 
-    if( rectangularCollision({rectangle1: player, rectangle2: enemy}) && player.isAttacking && player.framesCurrent === 4){
-            enemy.takeHit(10);
-            player.isAttacking = false;
-            gsap.to("#enemyHealth", {width: enemy.health+'%'});
-    }
+    // if( rectangularCollision({rectangle1: player, rectangle2: enemy}) && player.isAttacking && player.framesCurrent === 4){
+    //         enemy.takeHit(10);
+    //         player.isAttacking = false;
+    //         gsap.to("#enemyHealth", {width: enemy.health+'%'});
+    // }
 
     if( rectangularCollision({rectangle1: enemy, rectangle2: player}) && enemy.isAttacking && enemy.framesCurrent === 2){
         player.takeHit(10);
@@ -196,8 +200,8 @@ animate();
 function rangedAttack(characterPosition, character){
     const posX = characterPosition.x;
     const posY = characterPosition.y;
-    projectiles.push(new Projectile({position:{x:posX,y:posY}, offset: {x:90, y:70},
-        width:10, height:5, velocity:8, direction:"r",shot:true, enemy:character}));
+    projectiles.push(new Projectile({position:{x:posX,y:posY}, offset: {x:0, y:-75},
+        width:10, height:5, velocity:7, direction:"r",shot:true, enemy:character}));
 }
 
 window.addEventListener('keydown', (event) => {
@@ -220,8 +224,10 @@ window.addEventListener('keydown', (event) => {
                 }
                 break;
             case ' ':
-                player.attack();
-                rangedAttack(player.position, enemy);
+                if(!player.rangedAttacked){
+                    player.rangedAttacked = true;
+                    player.switchSprite("attack1");
+                }
                 break;
         }
     }
@@ -251,6 +257,9 @@ window.addEventListener('keydown', (event) => {
     }
     
 })
+
+
+
 
 window.addEventListener('keyup', (event) => {
     switch(event.key){
