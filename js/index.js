@@ -77,9 +77,18 @@ const enemy = new Fighter({
         attack1ToLeft: { imageSrc: "./img/kenji/Attack1.png", framesMax: 4, image: new Image() },
         takeHitToLeft: { imageSrc: "./img/kenji/TakeHit.png", framesMax: 3, image: new Image() },
         deathToLeft: { imageSrc: "./img/kenji/Death.png", framesMax: 7, image: new Image() },
-        deathToRight: { imageSrc: "./img/ranger2/Death.png", framesMax: 10, image: new Image() },
-        attack1ToRight: { imageSrc: "./img/ranger2/Attack1.png", framesMax: 6, image: new Image() },
-        takeHitToRight: { imageSrc: "./img/ranger2/GetHit.png", framesMax: 3, image: new Image() }
+        attack1ToLeft: { imageSrc: "./img/kenji/Attack1.png", framesMax: 4, image: new Image() },
+        takeHitToLeft: { imageSrc: "./img/kenji/GetHit.png", framesMax: 3, image: new Image() },
+        
+        idleToRight: { imageSrc: "./img/kenji/IdleToRight.png", framesMax: 4, reversedImage: true, image: new Image() },
+        runToRight: { imageSrc: "./img/kenji/RunToRight.png", framesMax: 8, reversedImage: true, image: new Image() },
+        jumpToRight: { imageSrc: "./img/kenji/JumpToRight.png", framesMax: 2, reversedImage: true, image: new Image() },
+        fallToRight: { imageSrc: "./img/kenji/FallToRight.png", framesMax: 2, reversedImage: true, image: new Image() },
+        attack1ToRight: { imageSrc: "./img/kenji/Attack1ToRight.png", framesMax: 4, reversedImage: true, image: new Image() },
+        takeHitToRight: { imageSrc: "./img/kenji/TakeHitToRight.png", framesMax: 3, reversedImage: true, image: new Image() },
+        deathToRight: { imageSrc: "./img/kenji/DeathToRight.png", framesMax: 7, reversedImage: true, image: new Image() },
+        attack1ToRight: { imageSrc: "./img/kenji/Attack1ToRight.png", framesMax: 4, reversedImage: true, image: new Image() },
+        takeHitToRight: { imageSrc: "./img/kenji/TakeHitToRight.png", framesMax: 3, reversedImage: true, image: new Image() }
     },
     attackBox: {
         offset: { x: -150, y: 50 },
