@@ -78,7 +78,6 @@ const enemy = new Fighter({
         takeHitToLeft: { imageSrc: "./img/kenji/TakeHit.png", framesMax: 3, image: new Image() },
         deathToLeft: { imageSrc: "./img/kenji/Death.png", framesMax: 7, image: new Image() },
         attack1ToLeft: { imageSrc: "./img/kenji/Attack1.png", framesMax: 4, image: new Image() },
-        takeHitToLeft: { imageSrc: "./img/kenji/GetHit.png", framesMax: 3, image: new Image() },
         
         idleToRight: { imageSrc: "./img/kenji/IdleToRight.png", framesMax: 4, reversedImage: true, image: new Image() },
         runToRight: { imageSrc: "./img/kenji/RunToRight.png", framesMax: 8, reversedImage: true, image: new Image() },
@@ -88,7 +87,6 @@ const enemy = new Fighter({
         takeHitToRight: { imageSrc: "./img/kenji/TakeHitToRight.png", framesMax: 3, reversedImage: true, image: new Image() },
         deathToRight: { imageSrc: "./img/kenji/DeathToRight.png", framesMax: 7, reversedImage: true, image: new Image() },
         attack1ToRight: { imageSrc: "./img/kenji/Attack1ToRight.png", framesMax: 4, reversedImage: true, image: new Image() },
-        takeHitToRight: { imageSrc: "./img/kenji/TakeHitToRight.png", framesMax: 3, reversedImage: true, image: new Image() }
     },
     attackBox: {
         offset: { x: -150, y: 50 },
@@ -134,7 +132,7 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.update();
     // c.fillStyle = "red";
-    // c.fillRect(player.position.x - player.offset.x, player.position.y - player.offset.y, player.width, player.height);
+    // c.fillRect(enemy.position.x - player.offset.x, player.position.y - player.offset.y, player.width, player.height);
     enemy.update();
 
 
